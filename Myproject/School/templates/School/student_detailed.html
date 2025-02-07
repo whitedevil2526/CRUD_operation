@@ -1,0 +1,12 @@
+{% extends "school_app/base.html" %}
+
+{% block title %}Student Detail{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4">{{ student.first_name }} {{ student.last_name }}</h1>
+    <p>Age: {{ student.age }}</p>
+    <p>Email: {{ student.email }}</p>
+    <p>Date of Birth: {{ student.date_of_birth }}</p>
+    <a href="{% url 'student_update' student.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'student_list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock %}
