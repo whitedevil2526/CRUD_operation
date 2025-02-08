@@ -1,7 +1,7 @@
 from django import forms
-from .models import Student
+from .models import Shoes  # Make sure 'Shoes' is correctly imported
 
-class StudentForm(forms.ModelForm):
+class ShoeForm(forms.ModelForm):
     class Meta:
-        model = Student
-        fields = ['first_name', 'last_name', 'age', 'email', 'date_of_birth']
+        model = Shoes  # Ensure it's capitalized correctly
+        fields = ['name', 'genre', 'prize', 'desc', 'image']

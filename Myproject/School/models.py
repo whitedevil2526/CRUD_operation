@@ -1,12 +1,8 @@
 from django.db import models
 
-# Create your models here.
-class Student(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    age = models.IntegerField()
-    email = models.EmailField(unique=True)
-    date_of_birth = models.DateField()
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+class Shoes(models.Model):
+    name = models.CharField(max_length=30)
+    genre = models.CharField(max_length=30)
+    desc = models.TextField()
+    prize = models.IntegerField()
+    image = models.ImageField(upload_to="post_images/", null=True, blank=True)

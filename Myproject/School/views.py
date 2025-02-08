@@ -1,39 +1,26 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Student
-from .forms import StudentForm
+from django.shortcuts import render, get_object_or_404, redirect,HttpResponseRedirect
+from .models import Shoes
+from .forms import ShoeForm
 
-def student_list(request):
-    students = Student.objects.all()
-    return render(request, 'school_app/student_list.html', {'students': students})
+def home(request):
+    shoes = Shoes.objects.all()
+    return render(request, 'home.html', {'shoes': shoes})
 
-def student_detail(request, pk):
-    student = get_object_or_404(Student, pk=pk)
-    return render(request, 'school_app/student_detail.html', {'student': student})
-
-def student_create(request):
+def update_shoe(request, id):
+    shoe = get_object_or_404(Shoes, id=id)
     if request.method == 'POST':
-        form = StudentForm(request.POST)
+        form = ShoeForm(request.POST, request.FILES, instance=shoe)
         if form.is_valid():
             form.save()
-            return redirect('student_list')
+            return redirect('home')
     else:
-        form = StudentForm()
-    return render(request, 'school_app/student_form.html', {'form': form})
+        pi = Shoes.objects.get(pk=id)
+        form = ShoeForm(instance=shoe)
+    return render(request, 'shoes/home.html', {'form': form})
 
-def student_update(request, pk):
-    student = get_object_or_404(Student, pk=pk)
+def delete_shoe(request, id):
+    shoe = get_object_or_404(Shoes, id=id)
     if request.method == 'POST':
-        form = StudentForm(request.POST, instance=student)
-        if form.is_valid():
-            form.save()
-            return redirect('student_list')
-    else:
-        form = StudentForm(instance=student)
-    return render(request, 'school_app/student_form.html', {'form': form})
-
-def student_delete(request, pk):
-    student = get_object_or_404(Student, pk=pk)
-    if request.method == 'POST':
-        student.delete()
-        return redirect('student_list')
-    return render(request, 'school_app/student_confirm_delete.html', {'student': student})
+        shoe.delete()
+        return redirect('home')
+    return HttpResponseRedirect("/")
