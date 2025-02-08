@@ -1,7 +1,7 @@
 from django import forms
-from .models import Shoes  # Make sure 'Shoes' is correctly imported
+from .models import Shoes
 
 class ShoeForm(forms.ModelForm):
     class Meta:
-        model = Shoes  # Ensure it's capitalized correctly
-        fields = ['name', 'genre', 'prize', 'desc', 'image']
+        model = Shoes
+        fields = ['name', 'brand', 'price', 'desc','image']  # Use correct field names

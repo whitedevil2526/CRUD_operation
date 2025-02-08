@@ -1,26 +1,17 @@
-from django.shortcuts import render, get_object_or_404, redirect,HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect
 from .models import Shoes
 from .forms import ShoeForm
 
 def home(request):
-    shoes = Shoes.objects.all()
-    return render(request, 'home.html', {'shoes': shoes})
+    shoes = Shoes.objects.all()  # Fetch all shoes at the beginning
+    print(shoes)  # Debugging: Check if data is being retrieved
 
-def update_shoe(request, id):
-    shoe = get_object_or_404(Shoes, id=id)
-    if request.method == 'POST':
-        form = ShoeForm(request.POST, request.FILES, instance=shoe)
+    if request.method == "POST":
+        form = ShoeForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return HttpResponseRedirect("/")  # Redirect to prevent duplicate form submission
     else:
-        pi = Shoes.objects.get(pk=id)
-        form = ShoeForm(instance=shoe)
-    return render(request, 'shoes/home.html', {'form': form})
+        form = ShoeForm()  # Initialize an empty form for GET request
 
-def delete_shoe(request, id):
-    shoe = get_object_or_404(Shoes, id=id)
-    if request.method == 'POST':
-        shoe.delete()
-        return redirect('home')
-    return HttpResponseRedirect("/")
+    return render(request, 'school/home.html', {'form': form, 'shoes': shoes})  # Ensure 'shoes' matches template
