@@ -16,6 +16,20 @@ def home(request):
 
     return render(request, 'school/home.html', {'form': form, 'shoes': shoes})  # Ensure 'shoes' matches template
 
+def shop(request):
+    shoes = Shoes.objects.all()  # ✅ Now it will work
+    return render(request, 'shop.html', {'shoes': shoes})
+
+def add_shoe(request):
+    if request.method == "POST":
+        form = ShoeForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ShoeForm()
+    return render(request, 'index.html', {'form': form})
+
 def update_shoe(request, shoe_id):
     shoe = Shoes.objects.get(pk=shoe_id)
     if request.method == "POST":
